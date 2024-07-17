@@ -13,10 +13,10 @@ with st.sidebar:
         default_index=0
         )
 db_connection = mysql.connector.connect(
-        host = "localhost",
-        username = "root",
-        password = "12345",
-        database = "MDE92"
+        host = "hostname",
+        username = "username",
+        password = "password",
+        database = "database"
 )
 
 # Fetch options from database for dropdown
