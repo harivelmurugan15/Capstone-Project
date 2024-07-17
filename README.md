@@ -4,8 +4,8 @@ In this project we have used Selenium to scrap the data from the Redbus website 
 
 #**Pre-Requisites**
 1. Ensure You Have Python and pip Installed
-  First, make sure you have Python installed on your system. You can check this by running:
-     python --version
+  #First, make sure you have Python installed on your system. You can check this by running:
+     #python --version
 2. pip is usually installed automatically with Python. You can check its version by running:
      pip --version
 3. Install Selenium using pip
