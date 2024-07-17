@@ -22,10 +22,10 @@ print(df)
 df.to_csv("dataframe_redbus.csv")
 
 con = mysql.connector.connect(
-    host = "localhost",
-    username = "root",
-    password = "12345",
-    database = "MDE92")
+    host = "hostname",
+    username = "username",
+    password = "password",
+    database = "database")
 
 cursor = con.cursor()
 
