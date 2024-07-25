@@ -91,6 +91,9 @@ Once you coloned the repository and installed the prerequistes you are ready to 
                  2. Run the SQL Handeling.py file - This will call the web_scrapping.py and scrap the data redbus appilication and store it in your database.
                  
                  3. Run the streamlit application and Use filter to obtain the required data.
-                 
-                 4. Always clear the database by running Clear databse.py which will clear all the data and ready the database for the future use.
+                            streamlit run streamlit_demo.py 
+                 4. The streamlit application will open in webpage as localhost sever.
+                        ![image](https://github.com/user-attachments/assets/f8ae0976-eade-4717-bd27-3f3996c628df)
+
+                 5. Always clear the database by running Clear databse.py which will clear all the data and ready the database for the future use.
    
