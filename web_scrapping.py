@@ -21,6 +21,7 @@ seat_availablity = []
 
 count = 0
 
+
 def scroll_to_bottom(driver):
     # Get scroll height
     last_height = driver.execute_script("return document.body.scrollHeight")
@@ -38,101 +39,113 @@ def scroll_to_bottom(driver):
             break
         last_height = new_height
 
-driver.get('https://www.redbus.in/')
-govt_bus = driver.find_elements(By.XPATH,"(//div[@class='rtcName'])") #minimum of 10 state buses
-for i in range(1,11):
-    scroll_button = driver.find_element(By.XPATH,"//div[@class ='scrollTopButton']")
-    driver.execute_script("arguments[0].click()",scroll_button)
 
-    g_bus = driver.find_element(By.XPATH,"(//div[@class='rtcName'])"+"["+str(i)+"]")
-    driver.execute_script("arguments[0].click()",g_bus)
+driver.get('https://www.redbus.in/')
+govt_bus = driver.find_elements(By.XPATH, "(//div[@class='rtcName'])")  # minimum of 10 state buses
+for i in range(1,11):
+    scroll_button = driver.find_element(By.XPATH, "//div[@class ='scrollTopButton']")
+    driver.execute_script("arguments[0].click()", scroll_button)
+
+    g_bus = driver.find_element(By.XPATH, "(//div[@class='rtcName'])" + "[" + str(i) + "]")
+    driver.execute_script("arguments[0].click()", g_bus)
     # route name
-    route_name = driver.find_elements(By.XPATH,"(//div[@class='route_details']/a)")
-    pagination  = driver.find_elements(By.XPATH,"//div[@class='DC_117_paginationTable']/div")
-   
+    route_name = driver.find_elements(By.XPATH, "(//div[@class='route_details']/a)")
+    pagination = driver.find_elements(By.XPATH, "//div[@class='DC_117_paginationTable']/div")
+
     for r in range(len(pagination)):
-       for j in range(1,11):
+        for j in range(1,11):
 
             try:
-                page = driver.find_element(By.XPATH,"//div[@class='DC_117_paginationTable']/div"+"["+str(r+1)+"]")
-                driver.execute_script("arguments[0].click()",page)
+                page = driver.find_element(By.XPATH,
+                                           "//div[@class='DC_117_paginationTable']/div" + "[" + str(r + 1) + "]")
+                driver.execute_script("arguments[0].click()", page)
             except NoSuchElementException as e:
                 print(f"Element not found - Pagination")
 
             try:
-                element = driver.find_element(By.XPATH,"(//div[@class='route_details']/a)"+"["+str(j)+"]")
+                element = driver.find_element(By.XPATH, "(//div[@class='route_details']/a)" + "[" + str(j) + "]")
                 route_txt = element.text
                 href_value = element.get_attribute("href")
-                driver.execute_script("arguments[0].click()",element)
-
+                driver.execute_script("arguments[0].click()", element)
+                time.sleep(5)
             except NoSuchElementException as e:
                 print(f"Element not found - routelink ")
                 break
 
             try:
-                gov_bus = driver.find_element(By.XPATH,"(//div[@class='button'])[1]")
-                gov_bus.click()
+                button2 = driver.find_element(By.XPATH, "(//div[@class='button'])[2]")
+                button2.click()
+
             except NoSuchElementException as e:
-                print(f"Element not found - 1st bus button ")
+                print(f"Element not found - 2nd bus button ")
+            try:
+                button1 = driver.find_element(By.XPATH, "(//div[@class='button'])[1]")
+                button1.click()
+
+            except NoSuchElementException as e:
+                print(f"Element not found - 1nd bus button ")
 
             try:
                 scroll_to_bottom(driver)
 
                 # bus name
-                bus_name = driver.find_elements(By.XPATH,"(//div[@class='travels lh-24 f-bold d-color'])")
+                bus_name = driver.find_elements(By.XPATH, "(//div[@class='travels lh-24 f-bold d-color'])")
                 count += len(bus_name)
                 # bus type
-                bus_seat_type = driver.find_elements(By.XPATH,"//div[@class='bus-type f-12 m-top-16 l-color evBus']")
+                bus_seat_type = driver.find_elements(By.XPATH, "//div[@class='bus-type f-12 m-top-16 l-color evBus']")
 
                 # departure time
-                starting_time = driver.find_elements(By.XPATH,"//div[@class='column-three p-right-10 w-10 fl']")
+                starting_time = driver.find_elements(By.XPATH, "//div[@class='column-three p-right-10 w-10 fl']")
 
                 # total time
-                total_time = driver.find_elements(By.XPATH,"//div[@class='dur l-color lh-24']")
+                total_time = driver.find_elements(By.XPATH, "//div[@class='dur l-color lh-24']")
 
                 # reaching time
-                arriving_time = driver.find_elements(By.XPATH,"//div[@class='column-five p-right-10 w-10 fl']")
+                arriving_time = driver.find_elements(By.XPATH, "//div[@class='column-five p-right-10 w-10 fl']")
 
-                #rating
-                rating = driver.find_elements(By.XPATH,"//div[@class='clearfix row-one']/div[@class='column-six p-right-10 w-10 fl']")
+                # rating
+                rating = driver.find_elements(By.XPATH,
+                                              "//div[@class='clearfix row-one']/div[@class='column-six p-right-10 w-10 fl']")
 
                 # price
-                cost = driver.find_elements(By.XPATH,"//div[@class='fare d-block']/span")
+                cost = driver.find_elements(By.XPATH, "//div[@class='fare d-block']/span")
 
                 # seat availablity
-                seat_available = driver.find_elements(By.XPATH,"//div[@class='column-eight w-15 fl']/div[1]")
+                seat_available = driver.find_elements(By.XPATH, "//div[@class='column-eight w-15 fl']/div[1]")
 
-                for i in bus_name:
-                    bus_names.append(i.text)
+                for bus_nam in bus_name:
+                    bus_names.append(bus_nam.text)
 
-                for i in bus_seat_type:
-                    bus_type.append(i.text)
+                for seat_type in bus_seat_type:
+                    bus_type.append(seat_type.text)
 
                 current_date = date.today()
-                for i in starting_time:
-                   starting_text = i.text.split('\n')[0]
-                   if "Next day" in i.text:
-                       departing_time.append((current_date + timedelta(days=1)).strftime('%Y-%m-%d') + " " + starting_text + ":00")
-                   else:
-                       departing_time.append(current_date.strftime('%Y-%m-%d') + " " + starting_text + ":00")
+                for start_time in starting_time:
+                    starting_text = start_time.text.split('\n')[0]
+                    if "Next day" in start_time.text:
+                        departing_time.append(
+                            (current_date + timedelta(days=1)).strftime('%Y-%m-%d') + " " + starting_text + ":00")
+                    else:
+                        departing_time.append(current_date.strftime('%Y-%m-%d') + " " + starting_text + ":00")
 
-                for i in total_time:
-                    duration.append(i.text)
+                for journey_time in total_time:
+                    duration.append(journey_time.text)
 
-                for i in arriving_time:
-                   reaching_text = i.text.split('\n')[0]
-                   try:
-                          next_day = driver.find_element(By.XPATH, "//div[@class='next-day-dp-lbl m-top-16']")
-                          if next_day.text in i.text:
-                              reaching_time.append((current_date + timedelta(days=1)).strftime('%Y-%m-%d') + " " + reaching_text + ":00")
-                          else:
-                               reaching_time.append(current_date.strftime('%Y-%m-%d') + " " + reaching_text + ":00")
+                for arrive_time in arriving_time:
+                    reaching_text = arrive_time.text.split('\n')[0]
+                    try:
+                        next_day = driver.find_element(By.XPATH, "//div[@class='next-day-dp-lbl m-top-16']")
+                        if next_day.text in arrive_time.text:
+                            reaching_time.append(
+                                (current_date + timedelta(days=1)).strftime('%Y-%m-%d') + " " + reaching_text + ":00")
+                        else:
+                            reaching_time.append(current_date.strftime('%Y-%m-%d') + " " + reaching_text + ":00")
 
-                   except NoSuchElementException:
+                    except NoSuchElementException:
                         reaching_time.append(current_date.strftime('%Y-%m-%d') + " " + reaching_text + ":00")
 
-                for i in rating:
-                    x = i.text
+                for star_rat in rating:
+                    x = star_rat.text
                     x = x.split('\n')[0]
                     if x == ' ':
                         star_rating.append(float(0))
@@ -141,11 +154,11 @@ for i in range(1,11):
                     else:
                         star_rating.append(float(x))
 
-                for i in cost:
-                    price.append(float(i.text))
+                for total_price in cost:
+                    price.append(float(total_price.text))
 
-                for i in seat_available:
-                    i = i.text
+                for available_seat in seat_available:
+                    i = available_seat.text
                     i = i.split(' ')[0]
                     seat_availablity.append(int(i))
 
@@ -158,7 +171,7 @@ for i in range(1,11):
                 count = 0
 
                 driver.back()
-                modify_button = driver.find_element(By.XPATH,"//div[@class='onward-modify-btn g-button clearfix fl']")
+                modify_button = driver.find_element(By.XPATH, "//div[@class='onward-modify-btn g-button clearfix fl']")
 
                 if modify_button.is_displayed():
                     driver.back()
